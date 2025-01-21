@@ -1,17 +1,7 @@
-/**
- * This file is used to convert different formats of values.
- * @file This file is saved as `converters.js`.
- */
+// @flow
 import { log } from './logsUtils';
 
-/**
- * Converts an RGB string to a hexadecimal color format.
- * @param {string} rgbString - The RGB color string to convert.
- * @returns {string} The hexadecimal color representation.
- * @example
- * // returns '#FF0000' for 'rgb(255, 0, 0)'
- */
-function rgbToHex(rgbString = '') {
+function rgbToHex(rgbString: string = ''): string {
   const rgbArray = rgbString
     .replace('rgb(', '')
     .replace(')', '')
@@ -26,14 +16,7 @@ function rgbToHex(rgbString = '') {
     .join('')}`;
 }
 
-/**
- * Converts an RGBA string to a hexadecimal color format.
- * @param {string} rgbaString - The RGBA color string to convert.
- * @returns {string} The hexadecimal color representation.
- * @example
- * // returns '#FF0000' for 'rgba(255, 0, 0, 1)'
- */
-function rgbaToHex(rgbaString = '') {
+function rgbaToHex(rgbaString: string = ''): string {
   const rgbaArray = rgbaString
     .replace('rgba(', '')
     .replace(')', '')
@@ -42,14 +25,7 @@ function rgbaToHex(rgbaString = '') {
   return `${rgbToHex(`rgb(${rgbaArray.slice(0, 3).join(',')})`)}  ${(rgbaArray[3] * 100).toFixed(2)}`;
 }
 
-/**
- * Converts seconds to a Yoda time format (HH:MM:SS or MM:SS).
- * @param {number} seconds - The number of seconds to convert.
- * @returns {string} The formatted time in Yoda format.
- * @example
- * // returns '00:01' for 1 second
- */
-function formatSecToYodaTime(seconds = 1) {
+function formatSecToYodaTime(seconds: number = 1): string {
   const isoString = new Date(seconds * 1000).toISOString();
   if (seconds >= 3600) {
     return isoString.substr(11, 8);
@@ -57,15 +33,7 @@ function formatSecToYodaTime(seconds = 1) {
   return isoString.substr(14, 5);
 }
 
-/**
- * Converts a logarithmic gain value to a percentage format.
- * @param {number} lg - The logarithmic gain value.
- * @returns {string} The formatted gain as a percentage.
- * @example
- * // returns '+50.00%'
- * convertGainFormat(0.5);
- */
-function convertGainFormat(lg) {
+function convertGainFormat(lg: number): string {
   const stringGain = `${Math.abs(lg) * 100}`.split('.');
   let res;
   if (stringGain[1]) {
@@ -76,29 +44,11 @@ function convertGainFormat(lg) {
   return `${lg > 0 ? '+' : '-'}${res}%`;
 }
 
-/**
- * Calculates the greatest common divisor (GCD) of two numbers.
- * @param {number} a - The first number.
- * @param {number} b - The second number.
- * @returns {number} The greatest common divisor of a and b.
- * @example
- * // returns 2
- * gcd(4, 2);
- */
-function gcd(a, b) {
+function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
 }
 
-/**
- * Calculates the aspect ratio of the given width and height.
- * @param {number} width - The width of the element.
- * @param {number} height - The height of the element.
- * @returns {number} The aspect ratio calculated as width divided by height.
- * @example
- * // returns 1.5
- * getAspectRatio(16, 9);
- */
-function getAspectRatio(width, height) {
+function getAspectRatio(width: number, height: number): number {
   const ratio = gcd(width, height);
   log('~ getAspectRatio ~ ', `${width / ratio}/${height / ratio}`);
   return width / ratio / (height / ratio);

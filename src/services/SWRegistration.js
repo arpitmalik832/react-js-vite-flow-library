@@ -1,23 +1,13 @@
-/**
- * To register and unregister service worker.
- * @file The file is saved as `SWRegistration.js`.
- */
+// @flow
 import { SW_URL, LOGS } from '../enums/sw';
 import { errorLog, log } from '../utils/logsUtils';
 import { isLocalhost } from '../utils/commonUtils';
 import load from '../utils/eventListeners/load';
 import { ENVS } from '../enums/app';
 
-/**
- * Registers a valid service worker.
- * Logs success or error messages based on the registration outcome.
- * @example
- * // Example usage:
- * registerValidSW();
- */
 function registerValidSW() {
   navigator.serviceWorker
-    .register(SW_URL)
+    ?.register(SW_URL)
     .then(registration => {
       log(LOGS.SUCCESS, registration);
     })
@@ -26,13 +16,6 @@ function registerValidSW() {
     });
 }
 
-/**
- * Checks if the service worker is valid.
- * If it can't be found, reloads the page.
- * @example
- * // Example usage:
- * checkValidSW();
- */
 function checkValidSW() {
   log(LOGS.CHECKING_SW);
   fetch(SW_URL, {
@@ -40,11 +23,11 @@ function checkValidSW() {
   })
     .then(response => {
       // To ensure if service worker exists, and that we really are getting a JS file.
-      const contentType = response.headers?.get('content-type');
-      if (response.status === 404 || !contentType.includes('javascript')) {
+      const contentType = response.headers.get('content-type');
+      if (response.status === 404 || !contentType?.includes('javascript')) {
         log(LOGS.NO_SW);
         // No service worker found. Probably a different app. Reloading the page.
-        navigator.serviceWorker.ready
+        navigator.serviceWorker?.ready
           .then(registration => {
             registration
               .unregister()
@@ -69,16 +52,6 @@ function checkValidSW() {
     });
 }
 
-/**
- * Service worker registration object.
- * @property {Function} register - Registers the service worker.
- * @property {Function} unregister - Unregisters the service worker.
- * @returns {object} The service worker registration object.
- * @example
- * // Example usage:
- * SWRegistration.register();
- * SWRegistration.unregister();
- */
 const SWRegistration = {
   register() {
     if (
@@ -102,7 +75,7 @@ const SWRegistration = {
           // Running on localhost -> Let's check if the service worker still exists or not.
           checkValidSW();
 
-          navigator.serviceWorker.ready
+          navigator.serviceWorker?.ready
             .then(() => {
               log(LOGS.SW_READY);
             })
@@ -118,7 +91,7 @@ const SWRegistration = {
   },
   unregister() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready
+      navigator.serviceWorker?.ready
         .then(registration => {
           registration.unregister().catch(err => {
             errorLog('registration.unregister()', err);

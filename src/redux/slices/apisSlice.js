@@ -1,11 +1,35 @@
-/**
- * Contains the apis slice.
- * @file This file is saved as `apisSlice.js`.
- */
+// @flow
+import type { AxiosInstance } from 'axios';
 import { createSlice } from '@reduxjs/toolkit';
+import type {
+  SliceCaseReducers,
+  SliceSelectors,
+  Slice,
+} from '@reduxjs/toolkit';
+
 import { SLICE_NAMES } from '../../enums/redux';
 
-const apisSlice = createSlice({
+interface APIData {
+  host: string;
+  headers: Record<string, string | Record<string, string>>;
+  axiosInstance: AxiosInstance;
+}
+
+type ApisRedux = APIData[];
+
+const apisSlice: Slice<
+  ApisRedux,
+  SliceCaseReducers<ApisRedux>,
+  string,
+  string,
+  SliceSelectors<ApisRedux>,
+> = createSlice<
+  ApisRedux,
+  SliceCaseReducers<ApisRedux>,
+  string,
+  SliceSelectors<ApisRedux>,
+  string,
+>({
   name: SLICE_NAMES.APIS,
   initialState: [],
   reducers: {

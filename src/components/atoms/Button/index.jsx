@@ -1,19 +1,11 @@
-/**
- * The Button component.
- * @file The file is saved as `index.jsx`.
- */
+// @flow
+import React from 'react';
 import { ReactComponent as StandardAccount } from '../../../assets/icons/lg32/standardAccount.svg';
 import forwardGrey from '../../../assets/images/forwardGrey.png';
 
 import s from './index.module.scss';
 
-/**
- * Button component that renders an icon and text.
- * @returns {import('react').JSX.Element} The rendered button component.
- * @example
- * <Button />
- */
-function Button() {
+function Button(): React.Node {
   return (
     <div data-testid="button" className={s.button}>
       <StandardAccount />

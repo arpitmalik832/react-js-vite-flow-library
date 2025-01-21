@@ -1,15 +1,14 @@
-/**
- * This is a utility function to handle the beforeunload event.
- * @file This file is saved as `beforeUnload.js`.
- */
+// @flow
+
 const beforeUnload = {
-  callBackFn() {},
-  subscribe(callBackFn) {
-    this.callBackFn = callBackFn;
+  // eslint-disable-next-line no-unused-vars
+  callBackFn: (...args: Parameters<BeforeUnloadEventListener>) => {},
+  subscribe(callBackFn: BeforeUnloadEventListener) {
+    beforeUnload.callBackFn = callBackFn;
     window.addEventListener('beforeunload', callBackFn);
   },
   unSubscribe() {
-    window.removeEventListener('beforeunload', this.callBackFn);
+    window.removeEventListener('beforeunload', beforeUnload.callBackFn);
   },
 };
 

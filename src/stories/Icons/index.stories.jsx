@@ -1,7 +1,4 @@
-/**
- * Icons component storybook.
- * @file This file is saved as `Icons.stories.jsx`.
- */
+// @flow
 import Icons from './index';
 
 export default {

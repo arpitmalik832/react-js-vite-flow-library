@@ -1,17 +1,7 @@
-/**
- * A simple loader component that displays a loading message.
- * @file The file is saved as `Loader/index.js`.
- */
+// @flow
+import React from 'react';
 
-/**
- * Loader component that displays a loading message.
- * @returns {import('react').JSX.Element} The loader element.
- * @example
- * import React from 'react';
- *
- * function Loader() {
- */
-function Loader() {
+function Loader(): React.Node {
   return <div>Loader</div>;
 }
 

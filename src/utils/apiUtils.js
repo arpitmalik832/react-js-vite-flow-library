@@ -1,19 +1,8 @@
-/**
- * This file contains utility functions to handle API requests.
- * @file This file is saved as `apiUtils.js`.
- */
+// @flow
+import { AxiosInstance, AxiosResponse } from 'axios';
 import { log, errorLog } from './logsUtils';
 
-/**
- * Handles the API request and returns the response data.
- * @param {Promise} request - The API request promise.
- * @returns {Promise} - A promise that resolves to the response data.
- * @example
- * handleRequest(axios.get('/api/data'))
- *   .then(data => console.log(data))
- *   .catch(error => console.error(error));
- */
-function handleRequest(request) {
+function handleRequest<T>(request: Promise<AxiosResponse<T>>): Promise<T> {
   return request
     .then(
       res => res.data, // Successful response
@@ -41,13 +30,7 @@ function handleRequest(request) {
     });
 }
 
-/**
- * Adds a request interceptor to the provided Axios instance.
- * @param {object} axiosInstance - The Axios instance to add the interceptor to.
- * @example
- * addRequestInterceptor(axiosInstance);
- */
-function addRequestInterceptor(axiosInstance) {
+function addRequestInterceptor(axiosInstance: AxiosInstance) {
   axiosInstance.interceptors.request.use(
     request => {
       const newRequest = {
@@ -68,13 +51,7 @@ function addRequestInterceptor(axiosInstance) {
   );
 }
 
-/**
- * Adds a response interceptor to the provided Axios instance.
- * @param {object} axiosInstance - The Axios instance to add the interceptor to.
- * @example
- * addResponseInterceptor(axiosInstance);
- */
-function addResponseInterceptor(axiosInstance) {
+function addResponseInterceptor(axiosInstance: AxiosInstance) {
   axiosInstance.interceptors.response.use(
     response => {
       const metadata = JSON.parse((response.config.data ?? '{}').toString());

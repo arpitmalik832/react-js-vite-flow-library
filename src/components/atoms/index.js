@@ -1,7 +1,4 @@
-/**
- * Exports all the atoms.
- * @file This file is saved as `index.js`.
- */
+// @flow
 import Button from './Button';
 import ComponentWithSuspense from './ComponentWithSuspense';
 import HtmlContent from './HtmlContent';

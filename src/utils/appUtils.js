@@ -1,10 +1,7 @@
-/**
- * This file contains app utility functions.
- * @file This file is saved as `appUtils.js`.
- */
+// @flow
 import { DEPRECATION_MSG_FOR_REMOVAL } from '../enums/app';
 
-const getDeprecationMsgForRemoval = func =>
+const getDeprecationMsgForRemoval = (func: string): string =>
   `${func} ${DEPRECATION_MSG_FOR_REMOVAL}`;
 
 export { getDeprecationMsgForRemoval };

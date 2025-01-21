@@ -1,7 +1,4 @@
-/**
- * Contains constants for App.
- * @file This file is saved as `app.js`.
- */
+// @flow
 const ENVS = {
   DEV: 'development',
   STG: 'staging',

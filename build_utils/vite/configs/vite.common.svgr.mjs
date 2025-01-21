@@ -19,7 +19,30 @@ const config = {
       svgrOptions: svgrConfig,
       include: '**/*.svg',
     }),
-    react(),
+    react({
+      babel: {
+        presets: [
+          [
+            '@babel/preset-react',
+            {
+              runtime: 'automatic',
+            },
+          ],
+          '@babel/preset-env',
+          [
+            '@babel/preset-flow',
+            {
+              jsxRuntime: 'automatic',
+            },
+          ],
+        ],
+        plugins: [
+          '@babel/transform-runtime',
+          '@babel/plugin-syntax-import-assertions',
+          'babel-plugin-syntax-hermes-parser',
+        ],
+      },
+    }),
     compression({
       deleteOriginFile: false,
       algorithm: 'brotliCompress',

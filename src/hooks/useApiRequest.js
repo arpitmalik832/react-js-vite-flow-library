@@ -1,27 +1,36 @@
-/**
- * This file contains hooks for making API requests.
- * @file It is saved as `useApiRequest.js`.
- */
+// @flow
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
+
 import { handleRequest } from '../utils/apiUtils';
 
-/**
- * Custom hook for making API requests with support for aborting requests.
- * @returns {object} An object containing methods for making GET, POST, PUT, DELETE requests and canceling them.
- * @example
- * const { makeGetCall, cancelRequest } = useApiRequest();
- * makeGetCall({ axiosInstance, url: '/api/data' });
- */
-function useApiRequest() {
-  let abortControllers = {};
+export type RequestConfig = {
+  url: string,
+  axiosInstance: AxiosInstance,
+  config?: AxiosRequestConfig,
+};
 
-  /**
-   * Creates an AbortController for the given key if it doesn't already exist.
-   * @param {string} key - The key to identify the AbortController.
-   * @returns {AbortController} The AbortController instance.
-   * @example
-   * const controller = createAbortController('requestKey');
-   */
-  function createAbortController(key) {
+export type RequestConfigWithBody<T> = {
+  url: string,
+  axiosInstance: AxiosInstance,
+  config?: AxiosRequestConfig,
+  body?: T,
+};
+
+type UseApiRequest = {
+  makeGetCall: <D>(params: RequestConfig) => Promise<D>,
+  makePostCall: <T, D>(params: RequestConfigWithBody<T>) => Promise<D>,
+  makePutCall: <T, D>(params: RequestConfigWithBody<T>) => Promise<D>,
+  makeDeleteCall: <D>(params: RequestConfig) => Promise<D>,
+  cancelRequest: (key: string) => void,
+  cancelAllRequests: () => void,
+};
+
+type AbortControllers = Record<string, AbortController>;
+
+function useApiRequest(): UseApiRequest {
+  let abortControllers: AbortControllers = {};
+
+  function createAbortController(key: string) {
     if (!abortControllers[key]) {
       abortControllers[key] = new AbortController();
     }
@@ -29,21 +38,12 @@ function useApiRequest() {
     return abortControllers[key];
   }
 
-  /**
-   * Makes a GET request using the provided axios instance.
-   * @param {string} url - The URL for the GET request.
-   * @param {import('axios').AxiosInstance} axiosInstance - The axios instance to use for the request.
-   * @param {import('axios').AxiosRequestConfig} [config] - Optional configuration for the request.
-   * @returns {Promise} A promise that resolves to the response of the GET request.
-   * @example
-   * const response = await makeGetCall({ axiosInstance, url: '/api/data' });
-   */
-  function makeGetCall(url, axiosInstance, config) {
+  function makeGetCall<D>(params: RequestConfig): Promise<D> {
+    const { url, axiosInstance, config } = params;
     const abortController = createAbortController(`GET ${url}`);
-
     const { signal } = abortController;
 
-    return handleRequest(
+    return handleRequest<D>(
       axiosInstance.get(url, {
         ...config,
         signal,
@@ -51,22 +51,12 @@ function useApiRequest() {
     );
   }
 
-  /**
-   * Makes a POST request using the provided axios instance.
-   * @param {string} url - The URL for the POST request.
-   * @param {object} body - The body of the POST request.
-   * @param {import('axios').AxiosInstance} axiosInstance - The axios instance to use for the request.
-   * @param {import('axios').AxiosRequestConfig} [config] - Optional configuration for the request.
-   * @returns {Promise} A promise that resolves to the response of the POST request.
-   * @example
-   * const response = await makePostCall({ axiosInstance, url: '/api/data', body: { key: 'value' } });
-   */
-  function makePostCall(url, body, axiosInstance, config) {
+  function makePostCall<T, D>(params: RequestConfigWithBody<T>): Promise<D> {
+    const { url, body, axiosInstance, config } = params;
     const abortController = createAbortController(`POST ${url}`);
-
     const { signal } = abortController;
 
-    return handleRequest(
+    return handleRequest<D>(
       axiosInstance.post(url, body, {
         ...config,
         signal,
@@ -74,22 +64,12 @@ function useApiRequest() {
     );
   }
 
-  /**
-   * Makes a PUT request using the provided axios instance.
-   * @param {string} url - The URL for the PUT request.
-   * @param {object} body - The body of the PUT request.
-   * @param {import('axios').AxiosInstance} axiosInstance - The axios instance to use for the request.
-   * @param {import('axios').AxiosRequestConfig} [config] - Optional configuration for the request.
-   * @returns {Promise} A promise that resolves to the response of the PUT request.
-   * @example
-   * const response = await makePutCall({ axiosInstance, url: '/api/data', body: { key: 'value' } });
-   */
-  function makePutCall(url, body, axiosInstance, config) {
+  function makePutCall<T, D>(params: RequestConfigWithBody<T>): Promise<D> {
+    const { url, body, axiosInstance, config } = params;
     const abortController = createAbortController(`PUT ${url}`);
-
     const { signal } = abortController;
 
-    return handleRequest(
+    return handleRequest<D>(
       axiosInstance.put(url, body, {
         ...config,
         signal,
@@ -97,21 +77,12 @@ function useApiRequest() {
     );
   }
 
-  /**
-   * Makes a DELETE request using the provided axios instance.
-   * @param {string} url - The URL for the DELETE request.
-   * @param {object} axiosInstance - The axios instance to use for the request.
-   * @param {object} [config] - Optional configuration for the request.
-   * @returns {Promise} A promise that resolves to the response of the DELETE request.
-   * @example
-   * const response = await makeDeleteCall({ axiosInstance, url: '/api/data' });
-   */
-  function makeDeleteCall(url, axiosInstance, config) {
+  function makeDeleteCall<D>(params: RequestConfig): Promise<D> {
+    const { url, axiosInstance, config } = params;
     const abortController = createAbortController(`DELETE ${url}`);
-
     const { signal } = abortController;
 
-    return handleRequest(
+    return handleRequest<D>(
       axiosInstance.delete(url, {
         ...config,
         signal,
@@ -119,24 +90,13 @@ function useApiRequest() {
     );
   }
 
-  /**
-   * Cancels the request associated with the given key.
-   * @param {string} key - The key to identify the request to cancel.
-   * @example
-   * cancelRequest('requestKey');
-   */
-  function cancelRequest(key) {
+  function cancelRequest(key: string) {
     if (abortControllers[key]) {
       abortControllers[key].abort();
       delete abortControllers[key];
     }
   }
 
-  /**
-   * Cancels all ongoing requests.
-   * @example
-   * cancelAllRequests();
-   */
   function cancelAllRequests() {
     Object.keys(abortControllers).forEach(key => {
       abortControllers[key].abort();

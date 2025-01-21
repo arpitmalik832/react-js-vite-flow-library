@@ -14,11 +14,12 @@ const ERR_NO_APP_ENV_FLAG =
 /**
  * Logs a success message indicating the server has started.
  * @param {number} port - The port number where the server started.
+ * @returns {string} A success message indicating the server has started.
  * @example
  * SERVER_STARTED_SUCCESSFULLY(3000);
  */
 function SERVER_STARTED_SUCCESSFULLY(port) {
-  chalk.green(`Server started at ${port} successfully !!!`);
+  return chalk.green(`Server started at ${port} successfully !!!`);
 }
 
 export {

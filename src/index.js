@@ -1,7 +1,4 @@
-/**
- * Exports all the components, enums, hooks, providers, redux, services, and utils.
- * @file This file is saved as `index.js`.
- */
+// @flow
 export * from './components';
 export * from './enums';
 export * from './hooks';

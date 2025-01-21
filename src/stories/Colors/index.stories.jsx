@@ -1,7 +1,4 @@
-/**
- * Colors Component Storybook.
- * @file This file is saved as `Colors.stories.jsx`.
- */
+// @flow
 import Colors from './index';
 
 export default {

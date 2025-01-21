@@ -1,15 +1,15 @@
-/**
- * This function is used to subscribe to the load event of the window.
- * @file This file is saved as `load.js`.
- */
+// @flow
+
 const load = {
-  callBackFn() {},
-  subscribe(callBackFn) {
-    this.callBackFn = callBackFn;
+  // eslint-disable-next-line no-unused-vars
+  callBackFn: (...args: Parameters<EventListener>) => {},
+  subscribe(callBackFn: EventListener) {
+    load.callBackFn = callBackFn;
+
     window.addEventListener('load', callBackFn);
   },
   unSubscribe() {
-    window.removeEventListener('load', this.callBackFn);
+    window.removeEventListener('load', load.callBackFn);
   },
 };
 

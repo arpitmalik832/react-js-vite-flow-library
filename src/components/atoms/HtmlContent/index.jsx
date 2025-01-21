@@ -1,19 +1,13 @@
-/**
- * HtmlContent component for rendering page title and description.
- * @file The file is saved as`HtmlContent/index.jsx`.
- */
+// @flow
+import React from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-/**
- * HtmlContent component to render the page title and description.
- * @param {object} props - The component props.
- * @param {string} props.title - The title of the page.
- * @param {string} props.description - The description of the page.
- * @returns {import('react').JSX.Element} The rendered component.
- * @example
- * <HtmlContent title="My Title" description="My Description" />
- */
-function HtmlContent({ title, description }) {
+type HtmlContentProps = {
+  title: string,
+  description: string,
+};
+
+function HtmlContent({ title, description }: HtmlContentProps): React.Node {
   return (
     <HelmetProvider>
       <Helmet>

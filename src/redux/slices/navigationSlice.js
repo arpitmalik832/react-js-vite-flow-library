@@ -1,11 +1,23 @@
-/**
- * Contains the navigation slice.
- * @file This file is saved as `navigationSlice.js`.
- */
+// @flow
 import { createSlice } from '@reduxjs/toolkit';
+import type {
+  Slice,
+  SliceCaseReducers,
+  SliceSelectors,
+} from '@reduxjs/toolkit';
 import { errorLog } from '../../utils/logsUtils';
 
-const navigationSlice = createSlice({
+interface NavigationRedux {
+  stack: VoidFunctionWithParams<mixed>[];
+}
+
+const navigationSlice: Slice<
+  NavigationRedux,
+  SliceCaseReducers<NavigationRedux>,
+  string,
+  string,
+  SliceSelectors<NavigationRedux>,
+> = createSlice({
   name: 'navigation',
   initialState: {
     stack: [],

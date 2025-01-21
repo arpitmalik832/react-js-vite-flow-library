@@ -11,10 +11,17 @@ const config = {
       },
     ],
     '@babel/preset-env',
+    [
+      '@babel/preset-flow',
+      {
+        jsxRuntime: 'automatic',
+      },
+    ],
   ],
   plugins: [
     '@babel/transform-runtime',
     '@babel/plugin-syntax-import-assertions',
+    'babel-plugin-syntax-hermes-parser',
   ],
 };
 

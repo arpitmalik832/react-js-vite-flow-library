@@ -1,7 +1,4 @@
-/**
- * Button component storybook.
- * @file This file is saved as `index.stories.jsx`.
- */
+// @flow
 import Button from './index';
 
 export default {

@@ -395,7 +395,11 @@ describe('SWRegistration unit tests', () => {
 
   it('SWRegistration functions test in case of different public url', () => {
     process.env.APP_ENV = ENVS.PROD;
-    process.env.PUBLIC_URL = 'https://www.temp.com';
+    const originalPublicUrl = process.env.PUBLIC_URL;
+    Object.defineProperty(process.env, 'PUBLIC_URL', {
+      value: 'https://www.temp.com',
+      configurable: true,
+    });
 
     Object.defineProperty(window, 'location', {
       value: {
@@ -429,5 +433,10 @@ describe('SWRegistration unit tests', () => {
     });
 
     SWRegistration.register();
+
+    Object.defineProperty(process.env, 'PUBLIC_URL', {
+      value: originalPublicUrl,
+      configurable: true,
+    });
   });
 });

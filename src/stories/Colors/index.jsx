@@ -1,31 +1,17 @@
-/**
- * Renders the Colors storybook component.
- * @file The file is saved as `Colors/index.js`.
- */
+// @flow
+import React from 'react';
 import tokens from '../../../static/enums/design_tokens.json';
 import { capitalizeFirstChar } from '../../utils/stringUtils';
 import classnames from '../../utils/classNames';
-
 import s from './index.module.scss';
 
-/**
- * Colors component that renders color boxes based on design tokens.
- * @returns {import('react').JSX.Element} The rendered color boxes.
- * @example
- * return <Colors />;
- */
-function Colors() {
-  /**
-   * Retrieves the color value based on the provided parameters.
-   * @param {string} type - The type of color.
-   * @param {string} innerType - The inner type of color.
-   * @param {string} semanticLabel - The semantic label for the color.
-   * @param {string} theme - The theme (light or dark).
-   * @returns {string} The color value in hex format or as a color name.
-   * @example
-   * const color = getColorValue('primary', 'default', 'background', 'light');
-   */
-  function getColorValue(type, innerType, semanticLabel, theme) {
+function Colors(): React.Node {
+  function getColorValue(
+    type: string,
+    innerType: string,
+    semanticLabel: string,
+    theme: string,
+  ): string {
     const colorValue =
       tokens['color-semantics']?.[theme]?.[type]?.[innerType]?.[semanticLabel]
         ?.value;
@@ -40,17 +26,12 @@ function Colors() {
       ?.value;
   }
 
-  /**
-   * Retrieves the color value based on the provided parameters.
-   * @param {string} type - The type of color.
-   * @param {string} innerType - The inner type of color.
-   * @param {string} semanticLabel - The semantic label for the color.
-   * @param {string} theme - The theme (light or dark).
-   * @returns {string} The color value in hex format or as a color name.
-   * @example
-   * const color = getColorValue('primary', 'default', 'background', 'light');
-   */
-  function renderColorBox(type, innerType, semanticLabel, theme) {
+  function renderColorBox(
+    type: string,
+    innerType: string,
+    semanticLabel: string,
+    theme: string,
+  ): React.Node {
     const colorValue = getColorValue(type, innerType, semanticLabel, theme);
     return (
       <div

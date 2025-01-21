@@ -1,7 +1,4 @@
-/**
- * Event listeners utility functions.
- * @file This file is saved as `index.js`.
- */
+// @flow
 import beforeUnload from './beforeUnload';
 import load from './load';
 import preferredColorScheme from './preferredColorScheme';

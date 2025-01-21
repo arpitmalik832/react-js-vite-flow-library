@@ -1,15 +1,20 @@
-/**
- * Base query for making get requests.
- * @file This file is saved as `baseQuery.js`.
- */
+// @flow
+import { BaseQueryFn } from '@reduxjs/toolkit/query';
+import { AxiosInstance } from 'axios';
+
 import useApiRequest from '../../hooks/useApiRequest';
 
+interface BaseQueryParams {
+  axiosInstance: AxiosInstance;
+  url: string;
+}
+
 const baseQueryFn =
-  () =>
-  async ({ axiosInstance, url }) => {
+  <B: BaseQueryParams, T>(): BaseQueryFn<B> =>
+  async ({ axiosInstance, url }: B) => {
     const { makeGetCall } = useApiRequest();
 
-    return makeGetCall(url, axiosInstance)
+    return makeGetCall<T>({ url, axiosInstance })
       .then(response => ({ data: response }))
       .catch(err => ({ error: err }));
   };

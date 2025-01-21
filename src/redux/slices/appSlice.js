@@ -1,23 +1,47 @@
-/**
- * Contains the app slice.
- * @file This file is saved as `appSlice.js`.
- */
+// @flow
 import { createSlice } from '@reduxjs/toolkit';
+import type {
+  Slice,
+  SliceCaseReducers,
+  SliceSelectors,
+} from '@reduxjs/toolkit';
 
 import { THEME } from '../../enums/app';
 
-const appSlice = createSlice({
+type AppRedux = Record<string, mixed> & {
+  theme: string,
+};
+
+type UpdateStorePayload = {
+  key: string,
+  value: mixed,
+};
+
+type PayloadAction<T> = {
+  type: string,
+  payload: T,
+};
+
+const appSlice: Slice<
+  AppRedux,
+  SliceCaseReducers<AppRedux>,
+  string,
+  string,
+  SliceSelectors<AppRedux>,
+> = createSlice({
   name: 'app',
   initialState: {
     theme: THEME.LIGHT,
   },
   reducers: {
-    updateStore: (state, action) => {
-      if (action?.payload?.key && action?.payload?.value) {
-        return {
-          ...state,
-          [action.payload.key]: action.payload.value,
-        };
+    updateStore: (
+      state: AppRedux,
+      action: PayloadAction<UpdateStorePayload>,
+    ) => {
+      if (action?.payload?.key && action?.payload?.value != null) {
+        const newState = state;
+        newState[action.payload.key] = action.payload.value;
+        return newState;
       }
       return state;
     },

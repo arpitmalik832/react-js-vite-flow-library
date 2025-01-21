@@ -1,20 +1,20 @@
-/**
- * This file is used to detect the preferred color scheme of the user.
- * @file This file is saved as `preferredColorScheme.js`.
- */
+// @flow
+
 const preferredColorScheme = {
-  callBackFn() {},
-  subscribe(callBackFn) {
-    this.callBackFn = callBackFn;
+  // eslint-disable-next-line no-unused-vars
+  callBackFn: (...args: Parameters<MQEventListener>) => {},
+  subscribe(callBackFn: MQEventListener) {
+    preferredColorScheme.callBackFn = callBackFn;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    callBackFn(mq);
+    const mqList: MediaQueryListEvent = { matches: mq.matches };
+    callBackFn.call(mq, mqList);
 
     mq.addEventListener('change', callBackFn);
   },
   unSubscribe() {
     window
       .matchMedia('(prefers-color-scheme: dark)')
-      .removeEventListener('change', this.callBackFn);
+      .removeEventListener('change', preferredColorScheme.callBackFn);
   },
 };
 

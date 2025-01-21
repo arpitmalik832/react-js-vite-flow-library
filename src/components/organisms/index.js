@@ -1,7 +1,4 @@
-/**
- * Exports all the organisms.
- * @file This file is saved as `index.js`.
- */
+// @flow
 import Loader from './Loader';
 
 export { Loader };

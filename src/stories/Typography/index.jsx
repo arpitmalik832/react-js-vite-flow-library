@@ -1,35 +1,27 @@
-/**
- * Renders the Typography storybook component.
- * @file The file is saved as `Typography/index.jsx`.
- */
+// @flow
+import React from 'react';
 import tokens from '../../../static/enums/design_tokens.json';
 import classnames from '../../utils/classNames';
 import { capitalizeFirstChar } from '../../utils/stringUtils';
 
 import s from './index.module.scss';
 
-/**
- * Renders the Typography component.
- * @returns {import('react').JSX.Element} The rendered Typography component.
- * @example
- * <Typography />
- */
-function Typography() {
-  /**
-   * Converts a style object into a format suitable for inline styles.
-   * @param {object} input - The input style object.
-   * @returns {object} The converted style object.
-   * @example
-   * const style = getStyleObject({ 'font-size': { value: '16rem' } });
-   */
-  function getStyleObject(input) {
+type TypographyScaleObject = Record<
+  'font-size' | 'line-height' | 'letter-spacing',
+  Record<'value', string>,
+>;
+
+function Typography(): React.Node {
+  function getStyleObject(
+    input: TypographyScaleObject,
+  ): Record<string, string> {
     const styles = Object.entries(input).map(([property, valueObj]) => {
       const propName = property
-        ?.split('-')
-        ?.map((namePart, idx) =>
+        .split('-')
+        .map((namePart, idx) =>
           idx > 0 ? capitalizeFirstChar(namePart) : namePart,
         )
-        ?.join('');
+        .join('');
       return [propName, valueObj?.value];
     });
     return Object.fromEntries(styles);
@@ -82,7 +74,7 @@ function Typography() {
         </div>
         <div className={s.sectionBody}>
           {tokens?.typography?.weight &&
-            Object.entries(tokens?.typography?.weight).map(([weight, meta]) => (
+            Object.entries(tokens.typography.weight).map(([weight, meta]) => (
               <div
                 key={weight}
                 className={s.weightContainer}
