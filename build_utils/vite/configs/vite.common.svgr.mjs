@@ -28,7 +28,6 @@ const config = {
               runtime: 'automatic',
             },
           ],
-          '@babel/preset-env',
           [
             '@babel/preset-flow',
             {
