@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arpitmalik832/react-js-vite-library"
+    "url": "https://github.com/arpitmalik832/react-js-vite-flow-library"
   },
   "engines": {
     "node": ">=20.17.0"
